@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Retro Text Effects – Glyphy.io</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050816;
+      --card-bg: #0b1021;
+      --accent: #ff6ec7;
+      --accent2: #40e0ff;
+      --grid: rgba(255,255,255,0.05);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #111827 0, #050816 55%, #02010a 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.5rem 1.25rem 0.75rem;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: clamp(1.75rem, 2.6vw, 2.4rem);
+      margin: 0 0 0.35rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: linear-gradient(120deg, #ff6ec7, #ffd166, #40e0ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 14px rgba(255, 110, 199, 0.3);
+    }
+
+    p.lede {
+      margin: 0 0 0.5rem;
+      font-size: 0.95rem;
+      color: #9ca3af;
+    }
+
+    .meta {
+      font-size: 0.8rem;
+      color: #6b7280;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .pill {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(15, 23, 42, 0.7);
+    }
+
+    main {
+      flex: 1;
+      padding: 0.75rem 1.25rem 1.5rem;
+      max-width: 960px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      position: relative;
+      padding: 1.1rem 1rem 1rem;
+      border-radius: 0.9rem;
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 50%),
+                  linear-gradient(135deg, rgba(148, 163, 184, 0.12), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      box-shadow:
+        0 18px 40px rgba(15, 23, 42, 0.95),
+        0 0 0 1px rgba(15, 23, 42, 0.8);
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+                        linear-gradient(0deg, var(--grid) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mix-blend-mode: soft-light;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #a5b4fc;
+    }
+
+    .chip {
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(129, 140, 248, 0.7);
+      background: rgba(30, 64, 175, 0.4);
+      backdrop-filter: blur(6px);
+    }
+
+    .tag {
+      color: #9ca3af;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+    }
+
+    .sample {
+      position: relative;
+      margin: 0.5rem 0 0.75rem;
+      padding: 1.15rem 0.5rem 0.5rem;
+      min-height: 74px;
+      border-radius: 0.7rem;
+      background: radial-gradient(circle at top, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.98));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .sample-label {
+      position: absolute;
+      top: 0.35rem;
+      left: 0.5rem;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #9ca3af;
+    }
+
+    pre {
+      margin: 0.4rem 0 0;
+      padding: 0.55rem 0.6rem;
+      border-radius: 0.6rem;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      overflow-x: auto;
+      color: #d1d5db;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    code { font-family: inherit; }
+
+    .hint {
+      font-size: 0.7rem;
+      color: #6b7280;
+      margin-top: 0.25rem;
+    }
+
+    .inline-label {
+      color: #a5b4fc;
+      font-weight: 500;
+    }
+
+    /* === EFFECTS === */
+
+    /* 1. Neon Grid */
+    .effect-neon-grid {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #40e0ff;
+      text-shadow:
+        0 0 4px rgba(64, 224, 255, 0.9),
+        0 0 18px rgba(64, 224, 255, 0.8),
+        0 0 36px rgba(64, 224, 255, 0.4),
+        0 0 60px rgba(64, 224, 255, 0.3);
+    }
+
+    /* 2. VHS Glitch */
+    .effect-vhs-glitch {
+      position: relative;
+      font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: #f9fafb;
+    }
+
+    .effect-vhs-glitch::before,
+    .effect-vhs-glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: glitch-shift 1.8s infinite ease-in-out alternate;
+    }
+
+    .effect-vhs-glitch::before {
+      color: #ff2e63;
+      transform: translate(-2px, -1px);
+      clip-path: inset(0 0 55% 0);
+    }
+
+    .effect-vhs-glitch::after {
+      color: #40e0ff;
+      transform: translate(2px, 1px);
+      clip-path: inset(45% 0 0 0);
+      animation-delay: 120ms;
+    }
+
+    @keyframes glitch-shift {
+      0% { transform: translate(0, 0); }
+      25% { transform: translate(1px, -1px); }
+      50% { transform: translate(-2px, 1px); }
+      75% { transform: translate(2px, 0); }
+      100% { transform: translate(-1px, 1px); }
+    }
+
+    /* 3. Chrome 80s */
+    .effect-chrome-80s {
+      font-family: "Audiowide", system-ui, sans-serif;
+      font-size: 1.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      background: linear-gradient(180deg, #f9fafb 0%, #d1d5db 32%, #6b7280 60%, #020617 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 0 2px rgba(15, 23, 42, 0.8),
+        0 3px 0 rgba(15, 23, 42, 0.9),
+        0 10px 18px rgba(0, 0, 0, 0.9);
+    }
+
+    /* 4. Vaporwave Gradient */
+    .effect-vaporwave {
+      font-family: "DM Sans", system-ui, sans-serif;
+      font-size: 1.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      background: linear-gradient(120deg, #ff6ec7, #ffd166, #40e0ff);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      text-shadow:
+        0 0 14px rgba(255, 110, 199, 0.5),
+        0 0 30px rgba(64, 224, 255, 0.3);
+    }
+
+    /* 5. CRT Pixel */
+    .effect-crt-pixel {
+      font-family: "Press Start 2P", system-ui, sans-serif;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #a7f3d0;
+      text-shadow:
+        0 0 4px rgba(34, 197, 94, 0.9),
+        0 0 18px rgba(16, 185, 129, 0.7);
+      image-rendering: pixelated;
+    }
+
+    /* 6. Wireframe Outline */
+    .effect-wireframe {
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: transparent;
+      -webkit-text-stroke: 1px #60a5fa;
+      text-stroke: 1px #60a5fa;
+      text-shadow:
+        0 0 18px rgba(37, 99, 235, 0.7);
+    }
+
+    @media (max-width: 640px) {
+      header { padding-inline: 1rem; }
+      main { padding-inline: 1rem; }
+      .sample { padding-top: 1.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Retro Text Effects &middot; Glyphy</h1>
+    <p class="lede">Hand‑coded CSS effects loosely inspired by styles you can generate on <a href="https://glyphy.io/font-generator" target="_blank" rel="noreferrer" style="color:#a5b4fc;text-decoration:none;border-bottom:1px dashed rgba(129,140,248,.6);">Glyphy.io</a>.
+    </p>
+    <div class="meta">
+      <span class="pill">Drop into your projects as HTML + CSS</span>
+      <span>Built for quick copy / paste</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid">
+      <!-- Neon Grid -->
+      <article class="card">
+        <div class="card-header">
+          <span class="chip">Neon Grid</span>
+          <span class="tag">80s arcade</span>
+        </div>
+        <div class="sample">
+          <div class="sample-label">Sample</div>
+          <div class="effect-neon-grid">LEVEL UP</div>
+        </div>
+        <pre><code>&lt;div class="effect-neon-grid"&gt;LEVEL UP&lt;/div&gt;</code></pre>
+        <p class="hint"><span class="inline-label">Hint:</span> Works great on top of a dark grid background or synthwave hero banner.</p>
+      </article>
+
+      <!-- VHS Glitch -->
+      <article class="card">
+        <div class="card-header">
+          <span class="chip">VHS Glitch</span>
+          <span class="tag">glitch / horror</span>
+        </div>
+        <div class="sample">
+          <div class="sample-label">Sample</div>
+          <div class="effect-vhs-glitch" data-text="NO SIGNAL">NO SIGNAL</div>
+        </div>
+        <pre><code>&lt;div class="effect-vhs-glitch" data-text="NO SIGNAL"&gt;NO SIGNAL&lt;/div&gt;</code></pre>
+        <p class="hint"><span class="inline-label">Hint:</span> Use sparingly for headings; animation is intentionally jittery.</p>
+      </article>
+
+      <!-- Chrome 80s -->
+      <article class="card">
+        <div class="card-header">
+          <span class="chip">Chrome 80s</span>
+          <span class="tag">metal logo</span>
+        </div>
+        <div class="sample">
+          <div class="sample-label">Sample</div>
+          <div class="effect-chrome-80s">MIDNIGHT DRIVE</div>
+        </div>
+        <pre><code>&lt;div class="effect-chrome-80s"&gt;MIDNIGHT DRIVE&lt;/div&gt;</code></pre>
+        <p class="hint"><span class="inline-label">Hint:</span> Pair with subtle gradient backgrounds and wide tracking.</p>
+      </article>
+
+      <!-- Vaporwave Gradient -->
+      <article class="card">
+        <div class="card-header">
+          <span class="chip">Vaporwave</span>
+          <span class="tag">pastel gradient</span>
+        </div>
+        <div class="sample">
+          <div class="sample-label">Sample</div>
+          <div class="effect-vaporwave">NEON DREAMS</div>
+        </div>
+        <pre><code>&lt;div class="effect-vaporwave"&gt;NEON DREAMS&lt;/div&gt;</code></pre>
+        <p class="hint"><span class="inline-label">Hint:</span> Looks clean over simple photo backgrounds or soft gradients.</p>
+      </article>
+
+      <!-- CRT Pixel -->
+      <article class="card">
+        <div class="card-header">
+          <span class="chip">CRT Pixel</span>
+          <span class="tag">8‑bit HUD</span>
+        </div>
+        <div class="sample">
+          <div class="sample-label">Sample</div>
+          <div class="effect-crt-pixel">INSERT COIN</div>
+        </div>
+        <pre><code>&lt;div class="effect-crt-pixel"&gt;INSERT COIN&lt;/div&gt;</code></pre>
+        <p class="hint"><span class="inline-label">Hint:</span> Ideal for pixel art UIs and scoreboards.</p>
+      </article>
+
+      <!-- Wireframe Outline -->
+      <article class="card">
+        <div class="card-header">
+          <span class="chip">Wireframe</span>
+          <span class="tag">hologram</span>
+        </div>
+        <div class="sample">
+          <div class="sample-label">Sample</div>
+          <div class="effect-wireframe">SYSTEM ONLINE</div>
+        </div>
+        <pre><code>&lt;div class="effect-wireframe"&gt;SYSTEM ONLINE&lt;/div&gt;</code></pre>
+        <p class="hint"><span class="inline-label">Hint:</span> Works nicely layered over 3D grid or scanline textures.</p>
+      </article>
+    </div>
+  </main>
+</body>
+</html>
